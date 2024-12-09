@@ -40,6 +40,9 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
 
+      - name: "Put private key in a file"
+        run: echo "${{ secrets.DOCKER_SSH_KEY }}" > ./ssh_key
+
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
         with:
@@ -47,7 +50,7 @@ jobs:
           directory: ansible
           options: |
             -u ${{ secrets.DOCKER_USER }}
-            --private-key ${{ secrets.DOCKER_SSH_KEY }}
+            --private-key ./ssh_key
             -i ${{ secrets.DOCKER_HOST }}
             -e "ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'"
 
