@@ -51,7 +51,8 @@ jobs:
           inventory: |
             ${{ secrets.DOCKER_HOST }}
           options: |
-            --extra-vars ansible_ssh_user=${{ secrets.DOCKER_USER }} ansible_ssh_private_key_file=${{ secrets.DOCKER_SSH_KEY }}
+            --extra-vars ansible_ssh_user=${{ secrets.DOCKER_USER }}
+            --extra-vars ansible_ssh_private_key_file=${{ secrets.DOCKER_SSH_KEY }}
 
       - name: "Write YAML"
         id: yaml-action
