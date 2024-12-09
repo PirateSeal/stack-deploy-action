@@ -51,7 +51,8 @@ jobs:
           options: |
             -u ${{ secrets.DOCKER_USER }}
             --private-key ./ssh_key
-            -i ${{ secrets.DOCKER_HOST }}
+            -i ${{ secrets.DOCKER_HOST }},
+            -c ssh
             -e "ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'"
 
       - name: "Write YAML"
