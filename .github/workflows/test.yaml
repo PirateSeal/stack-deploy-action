@@ -42,7 +42,7 @@ jobs:
 
       - name: "Put private key in a file"
         run: |
-          echo "${{ secrets.DOCKER_SSH_KEY }}" > ./ssh_key
+          echo "${{ secrets.DOCKER_SSH_KEY }}" > ansible/ssh_key
           export ANSIBLE_HOST_KEY_CHECKING=False
 
       - name: Run playbook
