@@ -47,7 +47,7 @@ jobs:
           directory: ansible
           options: |
             -u ${{ secrets.DOCKER_USER }}
-            -v ${{ secrets.DOCKER_SSH_KEY }}
+            --private-key ${{ secrets.DOCKER_SSH_KEY }}
             -i ${{ secrets.DOCKER_HOST }}
             -e "ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'"
 
