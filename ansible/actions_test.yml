@@ -15,7 +15,8 @@
         state: directory
 
     - name: Create registry user
-      command: htpasswd -Bbn testuser testpassword > /tmp/registry/registry.password
+      shell: htpasswd -Bbn testuser testpassword > /tmp/registry/registry.password
+      changed_when: false
 
     - name: Create Docker registry container
       docker_container:
