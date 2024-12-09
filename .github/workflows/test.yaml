@@ -45,14 +45,11 @@ jobs:
         with:
           playbook: actions_test.yml
           directory: ansible
-          configuration: |
-            [defaults]
-            host_key_checking = False
-          inventory: |
-            ${{ secrets.DOCKER_HOST }}
           options: |
-            --extra-vars ansible_ssh_user=${{ secrets.DOCKER_USER }}
-            --extra-vars ansible_ssh_private_key_file=${{ secrets.DOCKER_SSH_KEY }}
+            -u ${{ secrets.DOCKER_USER }}
+            -v ${{ secrets.DOCKER_SSH_KEY }}
+            -i ${{ secrets.DOCKER_HOST }}
+            -e "ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'"
 
       - name: "Write YAML"
         id: yaml-action
