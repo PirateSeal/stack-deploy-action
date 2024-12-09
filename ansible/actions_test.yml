@@ -1,0 +1,51 @@
+---
+- name: Test Registry Auth
+  become: no
+  tasks:
+    - name: Ensure apache2-utils is present
+      apt:
+        name: apache2-utils
+        state: present
+        update_cache: yes
+
+    - name: Create registry directory
+      file:
+        path: /tmp/registry
+        state: directory
+
+    - name: Create registry user
+      command: htpasswd -Bbn testuser testpassword > /tmp/registry/registry.password
+
+    - name: Create Docker registry container
+      docker_container:
+        name: registry
+        image: registry:2
+        ports:
+          - "5000:5000"
+        volumes:
+          - /tmp/registry/registry.password:/auth/registry.password:ro
+        env:
+          REGISTRY_AUTH: "htpasswd"
+          REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
+          REGISTRY_AUTH_HTPASSWD_PATH: "/auth/registry.password"
+        state: started
+
+    - name: Login to Docker registry
+      docker_login:
+        registry: localhost:5000
+        username: testuser
+        password: testpassword
+
+    - name: pull alpine image from Docker Hub
+      docker_image:
+        name: alpine
+        tag: latest
+        source: pull
+
+    - name: Push alpine image to local registry
+      docker_image:
+        name: alpine
+        repository: localhost:5000/alpine
+        tag: latest
+        push: true
+        source: local
