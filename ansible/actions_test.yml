@@ -3,11 +3,11 @@
   hosts: all
   become: no
   tasks:
-    - name: Ensure apache2-utils is present
-      apt:
-        name: apache2-utils
-        state: present
-        update_cache: yes
+    - name: Assert apache2-utils is present
+      command: dpkg -l apache2-utils
+      register: result
+      failed_when: result.rc != 0
+      changed_when: false
 
     - name: Create registry directory
       file:
