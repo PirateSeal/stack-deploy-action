@@ -1,5 +1,6 @@
 ---
 - name: Test Registry Auth
+  hosts: all
   become: no
   tasks:
     - name: Ensure apache2-utils is present
