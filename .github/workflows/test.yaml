@@ -41,7 +41,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: "Put private key in a file"
-        run: echo "${{ secrets.DOCKER_SSH_KEY }}" > ./ssh_key
+        run: |
+          echo "${{ secrets.DOCKER_SSH_KEY }}" > ./ssh_key
+          export ANSIBLE_HOST_KEY_CHECKING=False
 
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
